@@ -85,6 +85,36 @@ public class MainController {
                 log.info("Exiting get Item:"+response);
                 return gson.toJson(response);
             });
+            put("/checkItem/:id", (req, res) -> {
+                res.header("Content-Type","application/json");
+                log.info("Entering get Item :{}, userPrincipal:",req.params("id"));
+
+                UserPrincipal userPrincipal=req.attribute("userPrincipal");
+                List <String> rolesAllowed= Arrays.asList("ALL".split(","));
+                List <String> authAllowed= Arrays.asList("WHITE_LISTED_IP,TOKEN".split(","));
+                if(!AuthHelper.isAllowed(userPrincipal,rolesAllowed,authAllowed)){
+                    res.header("Content-Type","text/html");
+                    halt(403,"Access Denied");
+                }
+                GenericResponse<Item> response=new GenericResponse();
+                try {
+                    int id=Integer.parseInt(req.params("id"));
+                    if(ItemService.checkItem(id)){
+                        response.setStatus(ResponseCode.SUCCESS);
+                        response.setResponseDesc("Item updated Successfully");
+                    }else {
+                        response.setStatus(ResponseCode.FAILED);
+                        response.setResponseDesc("Item not found");
+                    }
+
+                }catch (Exception e){
+                    log.error("Error get Item",e);
+                    response.setStatus(ResponseCode.EXCEPTION);
+                    response.setResponseDesc(e.getMessage());
+                }
+                log.info("Exiting get Item:"+response);
+                return gson.toJson(response);
+            });
 
             get("/getAllItems", (req, res) -> {
                 res.header("Content-Type","application/json");

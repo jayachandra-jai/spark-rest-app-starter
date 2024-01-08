@@ -11,6 +11,7 @@ public class Item {
     int id;
     String title;
     String info;
+    boolean isChecked;
     public Item(int id,String title,String info){
         this.id=id;
         this.title=title;

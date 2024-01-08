@@ -29,6 +29,7 @@ public class AuthController {
             post("/getToken", (req, res) -> {
                 res.header("Content-Type","application/json");
                 Login login=gson.fromJson(req.body(),Login.class);
+                log.info("Inside Login :"+req);
                 // Validate user credentials (in-memory user database)
                 User user = UserService.getUser(login);
                 if (user != null) {
@@ -42,6 +43,7 @@ public class AuthController {
                             .refreshTokenIssuedAt(new Date())
                             .refreshTokenExpiredAt(new Date(System.currentTimeMillis()+TokenHelper.REFRESH_TOKEN_EXPIRATION_TIME))
                             .role(user.getRole())
+                            .userName(user.getUserName())
                             .build();
                     return token;
                 } else {

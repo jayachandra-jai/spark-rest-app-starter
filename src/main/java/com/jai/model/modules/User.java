@@ -11,11 +11,12 @@ import java.util.List;
  */
 @Data
 public class User {
-    String userName,password,role;
+    String userName,password,role,avatarLink;
 
-    public User(String userName, String password,String role) {
+    public User(String userName, String password,String role,String avatarLink) {
         this.userName = userName;
         this.password = password;
         this.role=role;
+        this.avatarLink=avatarLink;
     }
 }

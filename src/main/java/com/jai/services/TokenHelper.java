@@ -59,7 +59,7 @@ public class TokenHelper {
 
             return new UserPrincipal(userName,"TOKEN",role);
         } catch (JwtException e) {
-            log.error("Error in validateToken",e.getMessage());
+            log.error("Error in validateToken",e);
             return null;
         }
     }
